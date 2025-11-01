@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, Suspense } from "react";
 
 function Particles({ count = 1500 }: { count?: number }) {
   const points = useRef<THREE.Points>(null!);
@@ -175,26 +175,36 @@ function KafkaLogo3D() {
 }
 
 export default function Background3D() {
-  return (
-    <div className="fixed inset-0 -z-10" style={{ pointerEvents: 'none' }}>
-      <Canvas 
-        dpr={[1, 2]} 
-        camera={{ position: [0, 0, 8], fov: 60 }} 
-        gl={{ 
-          antialias: true, 
-          alpha: true,
-          powerPreference: 'high-performance'
-        }}
-        style={{ width: '100vw', height: '100vh' }}
-      >
-        <color attach="background" args={["#0a0e1a"]} />
-        <fog attach="fog" args={["#0a0e1a", 6, 14]} />
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={0.7} />
-        <Particles count={1200} />
-        <Knot />
-        <KafkaLogo3D />
-      </Canvas>
-    </div>
-  );
+  try {
+    return (
+      <div className="fixed inset-0 -z-10" style={{ pointerEvents: 'none' }}>
+        <Canvas 
+          dpr={[1, 2]} 
+          camera={{ position: [0, 0, 8], fov: 60 }} 
+          gl={{ 
+            antialias: true, 
+            alpha: true,
+            powerPreference: 'high-performance'
+          }}
+          style={{ width: '100vw', height: '100vh' }}
+          onCreated={(state) => {
+            state.gl.setClearColor('#0a0e1a', 1);
+          }}
+        >
+          <Suspense fallback={null}>
+            <color attach="background" args={["#0a0e1a"]} />
+            <fog attach="fog" args={["#0a0e1a", 6, 14]} />
+            <ambientLight intensity={0.4} />
+            <directionalLight position={[5, 5, 5]} intensity={0.7} />
+            <Particles count={1200} />
+            <Knot />
+            <KafkaLogo3D />
+          </Suspense>
+        </Canvas>
+      </div>
+    );
+  } catch (error) {
+    console.error('Background3D error:', error);
+    return <div className="fixed inset-0 -z-10 bg-[#0a0e1a]" />;
+  }
 }
