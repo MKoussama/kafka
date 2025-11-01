@@ -29,6 +29,7 @@ import {
   FileText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Background3D from "@/components/Background3D";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -140,92 +141,8 @@ export default function App() {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Animated 3D Background */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-[10%] left-[5%] w-64 h-64 bg-[#0073EC]/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 180, 360],
-            x: [0, 50, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute top-[60%] right-[10%] w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.3, 1],
-            rotate: [360, 180, 0],
-            x: [0, -30, 0],
-            y: [0, 50, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute bottom-[20%] left-[20%] w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.1, 1],
-            rotate: [0, -90, 0],
-            x: [0, -40, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 18,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute top-[30%] right-[30%] w-48 h-48 bg-[#00a8ff]/10 rounded-full blur-2xl"
-          animate={{
-            scale: [1, 1.4, 1],
-            x: [0, 60, 0],
-            y: [0, -40, 0],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        {/* Floating geometric shapes */}
-        <motion.div
-          className="absolute top-[40%] left-[60%] w-32 h-32 border-4 border-[#0073EC]/20"
-          style={{ transformStyle: 'preserve-3d' }}
-          animate={{
-            rotateX: [0, 360],
-            rotateY: [0, 360],
-            rotateZ: [0, 180],
-          }}
-          transition={{
-            duration: 30,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
-        <motion.div
-          className="absolute bottom-[30%] right-[40%] w-24 h-24 border-4 border-purple-500/20 rotate-45"
-          animate={{
-            rotateX: [360, 0],
-            rotateY: [360, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{
-            duration: 22,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      </div>
+      {/* Background 3D with Three.js */}
+      <Background3D />
       
       <Progress value={progress} className="fixed top-0 left-0 right-0 z-50 h-1 bg-[#0a0e1a]" />
 
