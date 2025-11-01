@@ -140,6 +140,93 @@ export default function App() {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      {/* Animated 3D Background */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute top-[10%] left-[5%] w-64 h-64 bg-[#0073EC]/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 180, 360],
+            x: [0, 50, 0],
+            y: [0, 30, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute top-[60%] right-[10%] w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.3, 1],
+            rotate: [360, 180, 0],
+            x: [0, -30, 0],
+            y: [0, 50, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-[20%] left-[20%] w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.1, 1],
+            rotate: [0, -90, 0],
+            x: [0, -40, 0],
+            y: [0, -20, 0],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute top-[30%] right-[30%] w-48 h-48 bg-[#00a8ff]/10 rounded-full blur-2xl"
+          animate={{
+            scale: [1, 1.4, 1],
+            x: [0, 60, 0],
+            y: [0, -40, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        {/* Floating geometric shapes */}
+        <motion.div
+          className="absolute top-[40%] left-[60%] w-32 h-32 border-4 border-[#0073EC]/20"
+          style={{ transformStyle: 'preserve-3d' }}
+          animate={{
+            rotateX: [0, 360],
+            rotateY: [0, 360],
+            rotateZ: [0, 180],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-[30%] right-[40%] w-24 h-24 border-4 border-purple-500/20 rotate-45"
+          animate={{
+            rotateX: [360, 0],
+            rotateY: [360, 0],
+            y: [0, -30, 0],
+          }}
+          transition={{
+            duration: 22,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      </div>
+      
       <Progress value={progress} className="fixed top-0 left-0 right-0 z-50 h-1 bg-[#0a0e1a]" />
 
       <header className="fixed top-4 left-0 right-0 z-40 px-6 flex items-center justify-between">
@@ -283,11 +370,15 @@ function Slide0({ onStart }: { onStart: () => void }) {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.7, duration: 0.8 }}
       >
-        <p className="text-xl text-gray-400">
-          <strong className="text-[#0073EC]">Oussama Lmaknassi</strong>
-        </p>
-        <p className="text-lg text-gray-500">
-          Étudiant en Intelligence Artificielle
+        <div className="text-gray-300 space-y-2">
+          <p className="text-xl font-semibold text-[#0073EC]">Réalisé par :</p>
+          <p className="text-lg">Elmaknassi Oussama</p>
+          <p className="text-lg">Chalf Fatima Zahra</p>
+          <p className="text-lg">Fourari Taha</p>
+          <p className="text-lg">Fouta Mohamed Yasser</p>
+        </div>
+        <p className="text-lg text-gray-500 mt-4">
+          Étudiants en Intelligence Artificielle - Spécialité Big Data
         </p>
       </motion.div>
 
@@ -378,6 +469,24 @@ function Slide2() {
       >
         🧠 Les technologies avant Kafka
       </motion.h2>
+
+      <motion.div
+        className="mb-8 bg-gradient-to-r from-[#0073EC]/20 to-transparent border-l-4 border-[#0073EC] p-6 rounded-lg"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.1 }}
+      >
+        <p className="text-lg text-gray-200 leading-relaxed mb-4">
+          Avant l'apparition de Kafka, plusieurs systèmes étaient utilisés pour la <strong className="text-[#0073EC]">messagerie et le transfert de données</strong> :
+        </p>
+        <h3 className="text-xl font-semibold text-white mt-4 mb-2">a. Systèmes traditionnels de messagerie</h3>
+        <ul className="list-none text-gray-300 space-y-2">
+          <li className="flex items-start gap-2">
+            <span className="text-[#0073EC]">•</span>
+            <span><strong>RabbitMQ</strong>, <strong>ActiveMQ</strong>, <strong>IBM MQ</strong>, etc. → Utilisés pour envoyer des messages entre applications (Producer → Consumer). → Basés sur des files d'attente (queues).</span>
+          </li>
+        </ul>
+      </motion.div>
 
       <div className="grid md:grid-cols-2 gap-8">
         <motion.div
@@ -894,16 +1003,18 @@ function Slide7() {
 }
 
 function Slide8() {
+  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
+
   const platforms = [
-    { name: "LinkedIn", color: "bg-blue-600" },
-    { name: "Netflix", color: "bg-red-600" },
-    { name: "Uber", color: "bg-black border-2 border-white" },
-    { name: "Spotify", color: "bg-green-600" },
-    { name: "Airbnb", color: "bg-pink-600" },
-    { name: "Twitter", color: "bg-sky-500" },
-    { name: "Pinterest", color: "bg-red-500" },
-    { name: "Yahoo", color: "bg-purple-700" },
-    { name: "Shopify", color: "bg-green-700" },
+    { name: "LinkedIn", color: "bg-blue-600", desc: "pour suivre les activités des utilisateurs en temps réel." },
+    { name: "Netflix", color: "bg-red-600", desc: "pour le streaming et la recommandation." },
+    { name: "Uber", color: "bg-black border-2 border-white", desc: "pour suivre les trajets, paiements et géolocalisations." },
+    { name: "Spotify", color: "bg-green-600", desc: "pour la gestion des playlists et suggestions en direct." },
+    { name: "Airbnb", color: "bg-pink-600", desc: "pour le traitement d'événements massifs." },
+    { name: "Twitter", color: "bg-sky-500", desc: "pour le traitement d'événements massifs." },
+    { name: "Pinterest", color: "bg-red-500", desc: "pour le traitement d'événements massifs." },
+    { name: "Yahoo", color: "bg-purple-700", desc: "pour le traitement d'événements massifs." },
+    { name: "Shopify", color: "bg-green-700", desc: "pour le traitement d'événements massifs." },
   ];
 
   return (
@@ -918,16 +1029,29 @@ function Slide8() {
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
         {platforms.map((platform, index) => (
-          <motion.div
+          <motion.button
             key={platform.name}
-            className={`${platform.color} p-6 rounded-xl text-center font-bold text-white text-xl shadow-lg hover:scale-110 transition-transform`}
+            onClick={() => setSelectedPlatform(selectedPlatform === platform.name ? null : platform.name)}
+            className={`${platform.color} p-6 rounded-xl text-center font-bold text-white text-xl shadow-lg hover:scale-110 transition-all cursor-pointer ${selectedPlatform === platform.name ? 'ring-4 ring-[#0073EC]' : ''}`}
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: index * 0.1, type: "spring" }}
             whileHover={{ rotate: 2 }}
           >
-            {platform.name}
-          </motion.div>
+            <div>{platform.name}</div>
+            <AnimatePresence>
+              {selectedPlatform === platform.name && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="mt-3 text-sm font-normal text-white/90"
+                >
+                  {platform.desc}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
         ))}
       </div>
 
@@ -1216,19 +1340,14 @@ function Slide12() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
-        <h3 className="text-3xl font-bold text-white mb-4">Oussama Lmaknassi</h3>
-        <p className="text-xl text-gray-400">Étudiant en Intelligence Artificielle</p>
-
-        <div className="pt-6 border-t border-white/10">
-          <p className="text-gray-500 text-sm mb-4">Présentation réalisée en novembre 2024</p>
-          <div className="flex flex-wrap gap-4 justify-center text-sm text-gray-600">
-            <span>📧 Contact</span>
-            <span>•</span>
-            <span>💼 LinkedIn</span>
-            <span>•</span>
-            <span>🌐 Portfolio</span>
-          </div>
+        <h3 className="text-3xl font-bold text-white mb-4">Réalisé par :</h3>
+        <div className="text-xl text-gray-300 space-y-2">
+          <p>Elmaknassi Oussama</p>
+          <p>Chalf Fatima Zahra</p>
+          <p>Fourari Taha</p>
+          <p>Fouta Mohamed Yasser</p>
         </div>
+        <p className="text-lg text-gray-400 mt-6">Étudiants en Intelligence Artificielle - Spécialité Big Data</p>
       </motion.div>
 
       <motion.p
