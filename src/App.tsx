@@ -1247,6 +1247,11 @@ function Slide10() {
 }
 
 function Slide11() {
+  const handleDownloadPDF = () => {
+    // Déclencher l'impression/sauvegarde en PDF
+    window.print();
+  };
+
   return (
     <div className="max-w-5xl w-full text-center">
       <motion.h2
@@ -1299,14 +1304,13 @@ function Slide11() {
         transition={{ delay: 1 }}
       >
         <h3 className="text-2xl font-semibold text-white mb-4">📚 Ressources</h3>
-        <div className="flex flex-wrap gap-4 justify-center">
-          <Button className="bg-[#0073EC] hover:bg-[#0056b3] text-white">
-            <Download className="mr-2" size={18} />
-            Télécharger PDF
-          </Button>
-          <Button variant="outline" className="border-[#0073EC] text-[#0073EC] hover:bg-[#0073EC]/10">
-            <FileText className="mr-2" size={18} />
-            Documentation Kafka
+        <div className="flex justify-center">
+          <Button 
+            onClick={handleDownloadPDF}
+            className="bg-[#0073EC] hover:bg-[#0056b3] text-white text-lg px-8 py-6"
+          >
+            <Download className="mr-2" size={20} />
+            Télécharger format PDF
           </Button>
         </div>
       </motion.div>
