@@ -143,7 +143,47 @@
     width: 100vw;
     overflow: hidden;
     position: relative;
+    background: linear-gradient(135deg, #0a0e1a 0%, #151922 50%, #0a0e1a 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
   }
+  
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .slide-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(0, 115, 236, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(0, 168, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(0, 115, 236, 0.05) 0%, transparent 50%);
+    animation: floatBubbles 20s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  @keyframes floatBubbles {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -30px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+  
   .text-kafka-blue {
     color: #0073EC;
   }

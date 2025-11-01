@@ -15,7 +15,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'three': ['three', '@react-three/fiber'],
           'react-vendor': ['react', 'react-dom'],
           'ui': ['framer-motion', 'lucide-react'],
         },
@@ -23,8 +22,5 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 1000,
     minify: 'esbuild',
-  },
-  optimizeDeps: {
-    include: ['three', '@react-three/fiber', 'framer-motion'],
   },
 });

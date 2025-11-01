@@ -29,7 +29,7 @@ import {
   FileText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Background3D from "@/components/Background3D";
+
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -136,13 +136,12 @@ export default function App() {
 
   return (
     <div 
-      className="slide-container relative bg-gradient-to-br from-[#0a0e1a] to-[#151922]"
+      className="slide-container relative"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Background 3D with Three.js */}
-      <Background3D />
+
       
       <Progress value={progress} className="fixed top-0 left-0 right-0 z-50 h-1 bg-[#0a0e1a]" />
 
