@@ -29,7 +29,7 @@ import {
   FileText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import AnimatedBackground from "@/components/AnimatedBackground";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -141,7 +141,8 @@ export default function App() {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-
+      {/* Background animé */}
+      <AnimatedBackground />
       
       <Progress value={progress} className="fixed top-0 left-0 right-0 z-50 h-1 bg-[#0a0e1a]" />
 
