@@ -1247,11 +1247,6 @@ function Slide10() {
 }
 
 function Slide11() {
-  const handleDownloadPDF = () => {
-    // Déclencher l'impression/sauvegarde en PDF
-    window.print();
-  };
-
   return (
     <div className="max-w-5xl w-full text-center">
       <motion.h2
@@ -1263,7 +1258,7 @@ function Slide11() {
       </motion.h2>
 
       <motion.div
-        className="space-y-8 mb-12"
+        className="space-y-8"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
@@ -1294,24 +1289,6 @@ function Slide11() {
               </motion.div>
             );
           })}
-        </div>
-      </motion.div>
-
-      <motion.div
-        className="space-y-4"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 1 }}
-      >
-        <h3 className="text-2xl font-semibold text-white mb-4">📚 Ressources</h3>
-        <div className="flex justify-center">
-          <Button 
-            onClick={handleDownloadPDF}
-            className="bg-[#0073EC] hover:bg-[#0056b3] text-white text-lg px-8 py-6"
-          >
-            <Download className="mr-2" size={20} />
-            Télécharger format PDF
-          </Button>
         </div>
       </motion.div>
     </div>
