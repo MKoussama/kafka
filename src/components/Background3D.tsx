@@ -176,17 +176,24 @@ function KafkaLogo3D() {
 
 export default function Background3D() {
   return (
-    <div className="fixed inset-0 -z-10">
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 8], fov: 60 }} gl={{ antialias: true, alpha: true }}>
+    <div className="fixed inset-0 -z-10" style={{ pointerEvents: 'none' }}>
+      <Canvas 
+        dpr={[1, 2]} 
+        camera={{ position: [0, 0, 8], fov: 60 }} 
+        gl={{ 
+          antialias: true, 
+          alpha: true,
+          powerPreference: 'high-performance'
+        }}
+        style={{ width: '100vw', height: '100vh' }}
+      >
+        <color attach="background" args={["#0a0e1a"]} />
         <fog attach="fog" args={["#0a0e1a", 6, 14]} />
-        <color attach="background" args={["transparent"]} />
         <ambientLight intensity={0.4} />
         <directionalLight position={[5, 5, 5]} intensity={0.7} />
-        <group>
-          <Particles count={1600} />
-          <Knot />
-          <KafkaLogo3D />
-        </group>
+        <Particles count={1200} />
+        <Knot />
+        <KafkaLogo3D />
       </Canvas>
     </div>
   );

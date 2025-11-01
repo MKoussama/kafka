@@ -118,13 +118,22 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-[#0a0e1a] text-foreground font-sans overflow-hidden;
-    --kafka-blue: #0073EC;
-    --kafka-light-blue: #00a8ff;
-  }
   html {
     scroll-behavior: smooth;
+    height: 100%;
+  }
+  body {
+    @apply bg-[#0a0e1a] text-foreground font-sans;
+    --kafka-blue: #0073EC;
+    --kafka-light-blue: #00a8ff;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  #root {
+    height: 100%;
+    width: 100%;
   }
 }
 
@@ -133,6 +142,7 @@
     height: 100vh;
     width: 100vw;
     overflow: hidden;
+    position: relative;
   }
   .text-kafka-blue {
     color: #0073EC;
@@ -142,14 +152,5 @@
   }
   .border-kafka-blue {
     border-color: #0073EC;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }
