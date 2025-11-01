@@ -81,6 +81,68 @@ function Knot() {
   );
 }
 
+function Link({ a, b, radius = 0.12, color = "#2aa9ff" }: { a: THREE.Vector3; b: THREE.Vector3; radius?: number; color?: string }) {
+  const dir = useMemo(() => b.clone().sub(a), [a, b]);
+  const len = useMemo(() => dir.length(), [dir]);
+  const mid = useMemo(() => a.clone().add(b).multiplyScalar(0.5), [a, b]);
+  const quat = useMemo(() => {
+    const q = new THREE.Quaternion();
+    q.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+    return q;
+  }, [dir]);
+
+  return (
+    <mesh position={mid.toArray()} quaternion={quat}>
+      <cylinderGeometry args={[radius, radius, len, 20]} />
+      <meshStandardMaterial color={color} emissive="#083a64" metalness={0.2} roughness={0.2} />
+    </mesh>
+  );
+}
+
+function Node({ position, size = 0.45, color = "#3ab7ff" }: { position: THREE.Vector3; size?: number; color?: string }) {
+  return (
+    <mesh position={position.toArray()}>
+      <sphereGeometry args={[size, 32, 32]} />
+      <meshStandardMaterial color={color} emissive="#0a3f6b" metalness={0.3} roughness={0.3} />
+    </mesh>
+  );
+}
+
+function KafkaLogo3D() {
+  const group = useRef<THREE.Group>(null!);
+  useFrame((_, delta) => {
+    if (!group.current) return;
+    group.current.rotation.y += delta * 0.2;
+  });
+
+  // Positions approximant le logo Kafka
+  const c = new THREE.Vector3(0, 0, 0);
+  const t = new THREE.Vector3(0, 1.8, 0);
+  const b = new THREE.Vector3(0, -1.8, 0);
+  const rt = new THREE.Vector3(1.6, 0.9, 0);
+  const rb = new THREE.Vector3(1.6, -0.9, 0);
+
+  const nodes = [c, t, b, rt, rb];
+
+  const links: Array<[THREE.Vector3, THREE.Vector3]> = [
+    [c, t],
+    [c, b],
+    [c, rt],
+    [c, rb],
+  ];
+
+  return (
+    <group ref={group} position={[0, 0, -1]}>
+      {nodes.map((p, i) => (
+        <Node key={i} position={p} size={i === 0 ? 0.6 : 0.45} />
+      ))}
+      {links.map(([a, b], i) => (
+        <Link key={`l-${i}`} a={a} b={b} />
+      ))}
+    </group>
+  );
+}
+
 export default function Background3D() {
   return (
     <div className="fixed inset-0 -z-10">
@@ -92,6 +154,7 @@ export default function Background3D() {
         <group>
           <Particles count={1600} />
           <Knot />
+          <KafkaLogo3D />
         </group>
       </Canvas>
     </div>
