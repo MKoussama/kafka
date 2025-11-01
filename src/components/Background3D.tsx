@@ -82,6 +82,7 @@ function Knot() {
 }
 
 function Link({ a, b, radius = 0.12, color = "#2aa9ff" }: { a: THREE.Vector3; b: THREE.Vector3; radius?: number; color?: string }) {
+  const mesh = useRef<THREE.Mesh>(null!);
   const dir = useMemo(() => b.clone().sub(a), [a, b]);
   const len = useMemo(() => dir.length(), [dir]);
   const mid = useMemo(() => a.clone().add(b).multiplyScalar(0.5), [a, b]);
@@ -91,20 +92,50 @@ function Link({ a, b, radius = 0.12, color = "#2aa9ff" }: { a: THREE.Vector3; b:
     return q;
   }, [dir]);
 
+  useFrame((state) => {
+    if (!mesh.current) return;
+    const t = state.clock.elapsedTime;
+    // Pulsation de l'emissive intensity
+    const material = mesh.current.material as THREE.MeshStandardMaterial;
+    material.emissiveIntensity = 0.4 + Math.sin(t * 2) * 0.2;
+  });
+
   return (
-    <mesh position={mid.toArray()} quaternion={quat}>
+    <mesh ref={mesh} position={mid.toArray()} quaternion={quat}>
       <cylinderGeometry args={[radius, radius, len, 20]} />
-      <meshStandardMaterial color={color} emissive="#083a64" metalness={0.2} roughness={0.2} />
+      <meshStandardMaterial color={color} emissive="#0073EC" emissiveIntensity={0.4} metalness={0.3} roughness={0.2} />
     </mesh>
   );
 }
 
-function Node({ position, size = 0.45, color = "#3ab7ff" }: { position: THREE.Vector3; size?: number; color?: string }) {
+function Node({ position, size = 0.45, color = "#3ab7ff", index = 0 }: { position: THREE.Vector3; size?: number; color?: string; index?: number }) {
+  const mesh = useRef<THREE.Mesh>(null!);
+  const light = useRef<THREE.PointLight>(null!);
+
+  useFrame((state) => {
+    if (!mesh.current || !light.current) return;
+    const t = state.clock.elapsedTime;
+    // Pulsation douce avec un léger décalage par nœud
+    const pulse = 1 + Math.sin(t * 1.5 + index * 0.3) * 0.15;
+    mesh.current.scale.setScalar(pulse);
+    // Variation de l'intensité de la lumière
+    light.current.intensity = 1.5 + Math.sin(t * 1.5 + index * 0.3) * 0.5;
+  });
+
   return (
-    <mesh position={position.toArray()}>
-      <sphereGeometry args={[size, 32, 32]} />
-      <meshStandardMaterial color={color} emissive="#0a3f6b" metalness={0.3} roughness={0.3} />
-    </mesh>
+    <group position={position.toArray()}>
+      <mesh ref={mesh}>
+        <sphereGeometry args={[size, 32, 32]} />
+        <meshStandardMaterial 
+          color={color} 
+          emissive={color} 
+          emissiveIntensity={0.8}
+          metalness={0.6} 
+          roughness={0.2} 
+        />
+      </mesh>
+      <pointLight ref={light} color={color} intensity={2} distance={3} decay={2} />
+    </group>
   );
 }
 
@@ -134,7 +165,7 @@ function KafkaLogo3D() {
   return (
     <group ref={group} position={[0, 0, -1]}>
       {nodes.map((p, i) => (
-        <Node key={i} position={p} size={i === 0 ? 0.6 : 0.45} />
+        <Node key={i} position={p} size={i === 0 ? 0.6 : 0.45} index={i} />
       ))}
       {links.map(([a, b], i) => (
         <Link key={`l-${i}`} a={a} b={b} />
